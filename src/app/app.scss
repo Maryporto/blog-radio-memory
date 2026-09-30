@@ -1,0 +1,61 @@
+/* Cabeçalho no azul da marca (igual ao site da Radio Memory), com logo branca */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--header-bg);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.15);
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: #fff;
+  text-decoration: none;
+
+  img {
+    display: block;
+    width: auto;
+    height: 44px;
+  }
+}
+
+.brand__label {
+  padding-left: 0.9rem;
+  border-left: 1px solid rgb(255 255 255 / 0.35);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: rgb(255 255 255 / 0.15);
+  }
+}
+
+main {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}

@@ -1,0 +1,121 @@
+/*
+ * Tokens de tema com as cores da identidade da Radio Memory
+ * (azul #005a85 do cabeçalho e teal #6ca7b9 dos títulos do site).
+ * Tema: segue o sistema; o botão do cabeçalho força via [data-theme].
+ */
+$brand-navy: #005a85;
+$brand-teal: #6ca7b9;
+
+@mixin dark-tokens {
+  --bg: #0b1821;
+  --surface: #12232f;
+  --surface-muted: #1a2f3d;
+  --text: #e4edf2;
+  --text-muted: #9fb3c0;
+  --border: #22394a;
+  --accent: #{$brand-teal};
+  --accent-soft: #173645;
+  --header-bg: #073e5c;
+  --placeholder-from: #073e5c;
+  --placeholder-to: #1e5a70;
+  --shadow: 0 8px 24px rgb(0 0 0 / 0.45);
+  color-scheme: dark;
+}
+
+:root {
+  --bg: #f3f7f9;
+  --surface: #ffffff;
+  --surface-muted: #e6eef2;
+  --text: #1d2d3a;
+  --text-muted: #5a6b78;
+  --border: #d9e4ea;
+  --accent: #{$brand-navy};
+  --accent-soft: #e1eef4;
+  --header-bg: #{$brand-navy};
+  --placeholder-from: #{$brand-navy};
+  --placeholder-to: #{$brand-teal};
+  --radius: 12px;
+  --shadow: 0 8px 24px rgb(0 90 133 / 0.12);
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  @include dark-tokens;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark-tokens;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Montserrat, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.container {
+  width: min(1120px, 100% - 2rem);
+  margin-inline: auto;
+}
+
+/* Componentes utilitários compartilhados */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--accent);
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.tag--pinned {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Shimmer: gradiente que "passa" sobre o bloco cinza durante o carregamento */
+.shimmer {
+  background: linear-gradient(90deg, var(--surface-muted) 25%, var(--border) 50%, var(--surface-muted) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer {
+    animation: none;
+  }
+}

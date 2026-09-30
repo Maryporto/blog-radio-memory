@@ -1,0 +1,45 @@
+@let c = card();
+<a class="card" [class.card--pinned]="pinned()" [routerLink]="['/post', c.id]">
+  <div class="card__media">
+    @if (cover(); as src) {
+      <!-- loading="lazy": a imagem só baixa quando se aproxima da tela (desempenho) -->
+      <img [src]="src" [alt]="c.titulo" loading="lazy" decoding="async" />
+    } @else {
+      <!-- Sem imagem na API: capa com a marca da Radio Memory -->
+      <div class="card__placeholder" aria-hidden="true">
+        <img src="logo-radiomemory-branca.png" alt="" />
+        <span>{{ c.categoria }}</span>
+      </div>
+    }
+
+    @if (c.videoUrl) {
+      <span class="card__video-badge">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" />
+        </svg>
+        Vídeo
+      </span>
+    }
+  </div>
+
+  <div class="card__body">
+    <div class="card__tags">
+      <span class="tag">{{ c.categoria }}</span>
+      @if (pinned()) {
+        <span class="tag tag--pinned">Fixado</span>
+      }
+    </div>
+
+    <h3 class="card__title">{{ c.titulo }}</h3>
+    <p class="card__subtitle">{{ c.subtitulo }}</p>
+
+    <p class="card__meta">
+      @if (c.data) {
+        <!-- Formato pt-BR exigido: 03/02/2025 13:56 (fuso do navegador) -->
+        <time [attr.datetime]="c.data.toISOString()">{{ c.data | date: 'dd/MM/yyyy HH:mm' }}</time>
+        ·
+      }
+      <span>{{ c.autor }}</span>
+    </p>
+  </div>
+</a>

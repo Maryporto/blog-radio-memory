@@ -1,0 +1,71 @@
+<a class="back" routerLink="/">← Voltar para a lista</a>
+
+@switch (state().status) {
+  @case ('loading') {
+    <div class="detail" aria-busy="true" aria-label="Carregando publicação">
+      <div class="shimmer sk-title"></div>
+      <div class="shimmer sk-meta"></div>
+      <div class="shimmer sk-media"></div>
+      <div class="shimmer sk-line"></div>
+      <div class="shimmer sk-line"></div>
+    </div>
+  }
+
+  @case ('error') {
+    <div class="feedback" role="alert">
+      <p class="feedback__title">Não foi possível carregar a publicação.</p>
+      <a class="btn" routerLink="/">Voltar</a>
+    </div>
+  }
+
+  @case ('success') {
+    @if (card(); as c) {
+      <article class="detail">
+        <span class="tag">{{ c.categoria }}</span>
+        <h1 class="detail__title">{{ c.titulo }}</h1>
+        <p class="detail__subtitle">{{ c.subtitulo }}</p>
+
+        <p class="detail__meta">
+          @if (c.data) {
+            <time [attr.datetime]="c.data.toISOString()">{{ c.data | date: 'dd/MM/yyyy HH:mm' }}</time>
+            ·
+          }
+          {{ c.autor }}
+        </p>
+
+        @if (videoSrc(); as src) {
+          <!-- Player responsivo: o wrapper fixa a proporção 16:9 em qualquer largura -->
+          <div class="video">
+            <iframe
+              [src]="src"
+              [title]="'Vídeo: ' + c.titulo"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              allowfullscreen
+            ></iframe>
+          </div>
+        } @else if (c.imgUrl) {
+          <img class="detail__img" [src]="c.imgUrl" [alt]="c.titulo" />
+        }
+
+        <!--
+          SEGURANÇA: [innerHTML] passa pelo sanitizador nativo do Angular,
+          que remove <script>, atributos on*= e URLs javascript:.
+          NUNCA usar bypassSecurityTrustHtml aqui — o HTML vem da API.
+        -->
+        <div class="detail__body" [innerHTML]="c.corpo"></div>
+
+        @if (c.urlPost) {
+          <!-- noopener/noreferrer: a aba nova não consegue controlar esta página -->
+          <a class="btn" [href]="c.urlPost" target="_blank" rel="noopener noreferrer">Ler no site ↗</a>
+        }
+      </article>
+    } @else {
+      <div class="feedback">
+        <p class="feedback__title">Publicação não encontrada.</p>
+        <a class="btn" routerLink="/">Ver todas</a>
+      </div>
+    }
+  }
+}
